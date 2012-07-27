@@ -5,12 +5,27 @@
     :copyright: (c) 2011 by Openlabs Technologies & Consulting (P) Ltd.
     :license: GPLv3, see LICENSE for more details.
 """
+import csv
+import base64
 from datetime import date
 from tempfile import NamedTemporaryFile
-import base64
 
 from trytond.wizard import Wizard
 from trytond.model import fields, ModelView
+
+
+class UnicodeDictWriter(csv.DictWriter):
+    def __init__(self, csvfile, fieldnames, *args, **kwargs):
+        """Allows to specify an additional keyword argument encoding which
+        defaults to "utf-8"
+        """
+        self.encoding = kwargs.pop('encoding', 'utf-8')
+        csv.DictWriter.__init__(self, csvfile, fieldnames, *args, **kwargs)
+
+    def _dict_to_list(self, rowdict):
+        rv = csv.DictWriter._dict_to_list(self, rowdict)
+        return [(f.encode(self.encoding) if isinstance(f, basestring) else f)\
+                    for f in rv]
 
 
 class CSVReportEngine(ModelView):
