@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tryton>
+    <data>
+
+      <menuitem name="CSV Reports"
+            id="csv_report"
+            sequence="50"/>
+
+        <!-- CSV Report Engine Wizard -->
+        <record model="ir.ui.view" id="csv_report_engine_form">
+            <field name="model">csv.report.engine</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <form string="CSV Report Engine">
+                    <label name="from_date"/>
+                    <field name="from_date"/>
+                    <label name="to_date"/>
+                    <field name="to_date"/>
+                    <label name="party"/>
+                    <field name="party"/>
+                    <label name="report"/>
+                    <field name="report"/>
+                </form>
+                ]]>
+            </field>
+        </record>
+
+        <record model="ir.action.wizard" id="csv_report_wizard">
+            <field name="name">Generate CSV Report</field>
+            <field name="wiz_name">csv.report.wizard</field>
+        </record>
+        
+        <menuitem name="CSV Report Engine"
+            parent="csv_report"
+            action="csv_report_wizard"
+            id="menu_csv_report_wizard"
+            sequence="20"/>
+
+        <record model="ir.ui.view" id="csv_report_wizard_response_view_form">
+            <field name="model">csv.report.wizard.response</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <form string="CSV Report Engine Response">
+                    <field name="filename" colspan="4"/>
+                    <label name="file"/>
+                    <field name="file"/>
+                </form>
+                ]]>
+            </field>
+        </record>
+
+    </data>
+</tryton>
+
